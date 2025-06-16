@@ -544,16 +544,7 @@ impl<V> GenericNiftiObject<V> {
             // extensions and volume are in the same source
 
             let extender = Extender::from_reader(&mut stream)?;
-            let len = (header.vox_offset as usize).saturating_sub(352);
-
-            let ext = {
-                let stream = ByteOrdered::runtime(&mut stream, header.endianness);
-                ExtensionSequence::from_reader(extender, stream, len)?
-            };
-
-            let volume = FromSource::from_reader(stream, &header, options)?;
-
-            (volume, ext)
+            GenericNiftiObject::from_reader_with_extensions(stream, &header, extender, options)?
         };
 
         Ok(GenericNiftiObject {
