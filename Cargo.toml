@@ -18,32 +18,32 @@ features = ["ndarray_volumes", "nalgebra_affine"]
 [dependencies]
 approx = "0.5"
 byteordered = "0.6"
-flate2 = "1.0"
-num-derive = "0.3"
+flate2 = "1.1"
+num-derive = "0.4"
 num-traits = "0.2"
 quick-error = "2.0"
-either = "1.6"
-num-complex = {version = "0.4.3", features=["bytemuck"]} 
-rgb = "0.8.36"
-bytemuck = {version = "1.13.1", features=["extern_crate_alloc"]}
+either = "1.15"
+num-complex = { version = "0.4", features = ["bytemuck"] }
+rgb = "0.8"
+bytemuck = { version = "1.23", features = ["extern_crate_alloc"] }
 
 [dependencies.nalgebra]
 optional = true
-version = "0.32"
+version = "0.33"
 
 [dependencies.ndarray]
 optional = true
-version = "0.15"
-features = ["approx-0_5"]
+version = "0.16"
+features = ["approx"]
 
 [dependencies.simba]
 default-features = false
 optional = true
-version = "0.8"
+version = "0.9"
 
 [dev-dependencies]
-pretty_assertions = "1.2.1"
-tempfile = "3.1"
+pretty_assertions = "1.4"
+tempfile = "3.20"
 
 [[example]]
 name = "niftidump"
