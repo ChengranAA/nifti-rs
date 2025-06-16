@@ -36,7 +36,7 @@ mod tests {
 
     fn get_temporary_path(ext: &str) -> PathBuf {
         let dir = tempdir().unwrap();
-        let mut path = dir.into_path();
+        let mut path = dir.keep();
         if !ext.is_empty() {
             path.push(ext);
         }
@@ -163,7 +163,7 @@ mod tests {
     fn half_slope() {
         let data = (0..216)
             .collect::<Array1<_>>()
-            .into_shape((6, 6, 6))
+            .into_shape_with_order((6, 6, 6))
             .unwrap();
         let dim = [3, 6, 6, 6, 1, 1, 1, 1];
         let slope = 0.4;

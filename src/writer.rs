@@ -426,7 +426,7 @@ where
     E: Endian,
 {
     let len = data.len();
-    let arr_data = data.into_shape(len).unwrap();
+    let arr_data = data.into_shape_with_order(len).unwrap();
     let slice = arr_data.as_slice().unwrap();
     let bytes = cast_slice(slice);
     let (writer, endianness) = writer.into_parts();
