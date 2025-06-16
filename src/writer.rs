@@ -96,9 +96,9 @@ impl<'a> WriterOptions<'a> {
     }
 
     /// Loads a reference header from a Nifti file.
-    pub fn reference_file<P: 'a>(mut self, path: &'a P) -> Self
+    pub fn reference_file<P>(mut self, path: &'a P) -> Self
     where
-        P: AsRef<Path>,
+        P: AsRef<Path> + 'a,
     {
         self.header_reference = HeaderReference::FromFile(path.as_ref());
         self

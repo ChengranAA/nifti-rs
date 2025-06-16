@@ -475,7 +475,7 @@ impl NiftiHeader {
     ///
     /// * 'sform' from unmodified `affine`, with `sform_code` set to `AlignedAnat`.
     /// * 'qform' from a quaternion built from `affine`. However, the 'qform' won't be used by most
-    /// nifti readers because the `qform_code` will be set to `Unknown`.
+    ///   nifti readers because the `qform_code` will be set to `Unknown`.
     pub fn set_affine<T>(&mut self, affine: &Matrix4<T>)
     where
         T: RealField,

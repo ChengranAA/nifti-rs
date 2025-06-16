@@ -243,7 +243,7 @@ where
     }
 }
 
-impl<'a, R> NiftiVolume for &'a StreamedNiftiVolume<R> {
+impl<R> NiftiVolume for &StreamedNiftiVolume<R> {
     fn dim(&self) -> &[u16] {
         (**self).dim()
     }

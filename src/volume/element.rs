@@ -186,7 +186,7 @@ pub trait DataElement: 'static + Sized + Copy {
     type DataRescaler: NiftiDataRescaler<Self>;
 
     /// Read a single element from the given byte source.
-    fn from_raw<R: Read, E>(src: R, endianness: E) -> Result<Self>
+    fn from_raw<R, E>(src: R, endianness: E) -> Result<Self>
     where
         R: Read,
         E: Endian;

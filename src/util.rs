@@ -104,8 +104,7 @@ pub fn nb_bytes_for_data(header: &NiftiHeader) -> Result<usize> {
 pub fn nb_values_for_dims(dim: &[u16]) -> Option<usize> {
     dim.iter()
         .cloned()
-        .map(usize::from)
-        .fold(Some(1), |acc, v| acc.and_then(|x| x.checked_mul(v)))
+        .try_fold(1usize, |acc, v| acc.checked_mul(v as usize))
 }
 
 pub fn nb_bytes_for_dim_datatype(dim: &[u16], datatype: NiftiType) -> Option<usize> {
