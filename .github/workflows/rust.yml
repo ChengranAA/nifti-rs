@@ -18,20 +18,13 @@ jobs:
           - "--no-default-features"
           - "--features ndarray_volumes,nalgebra_affine"
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions-rs/toolchain@v1
+      - uses: actions/checkout@v4
+      - uses: actions-rust-lang/setup-rust-toolchain@v1
         with:
-          profile: minimal
+          cache: true
           toolchain: ${{ matrix.rust }}
           override: true
-      - uses: actions-rs/cargo@v1
-        with:
-          command: build
-          args: ${{ matrix.features }}
-      - uses: actions-rs/cargo@v1
-        with:
-          command: test
-          args: ${{ matrix.features }}
+      - run: cargo test ${{ matrix.features }}
 
   # one Cargo feature combination (all)
   ci-minimal:
@@ -44,39 +37,27 @@ jobs:
         features:
           - "--features ndarray_volumes,nalgebra_affine"
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions-rs/toolchain@v1
+      - uses: actions/checkout@v4
+      - uses: actions-rust-lang/setup-rust-toolchain@v1
         with:
-          profile: minimal
+          cache: true
           toolchain: ${{ matrix.rust }}
           override: true
-      - uses: actions-rs/cargo@v1
-        with:
-          command: build
-          args: ${{ matrix.features }}
-      - uses: actions-rs/cargo@v1
-        with:
-          command: test
-          args: ${{ matrix.features }}
+      - run: cargo test ${{ matrix.features }}
 
   clippy:
     name: Clippy
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        rust:
-          - stable
         features:
           - "--features ndarray_volumes,nalgebra_affine"
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions-rs/toolchain@v1
+      - uses: actions/checkout@v4
+      - uses: actions-rust-lang/setup-rust-toolchain@v1
         with:
-          profile: minimal
-          toolchain: ${{ matrix.rust }}
+          cache: true
+          components: clippy
+          toolchain: stable
           override: true
-      - run: rustup component add clippy
-      - uses: actions-rs/cargo@v1
-        with:
-          command: clippy
-          args: ${{ matrix.features }}
+      - run: cargo clippy ${{ matrix.features }}
