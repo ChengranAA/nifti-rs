@@ -8,12 +8,9 @@ use either::Either;
 use flate2::bufread::GzDecoder;
 use std::borrow::Cow;
 use std::fs::File;
-use std::io::{BufReader, Read, Result as IoResult, Seek};
+use std::io::{BufReader, Result as IoResult};
 use std::mem;
 use std::path::{Path, PathBuf};
-/// A trait that is both Read and Seek.
-pub trait ReadSeek: Read + Seek {}
-impl<T: Read + Seek> ReadSeek for T {}
 
 pub fn convert_bytes_to<T, E>(mut a: Vec<u8>, e: E) -> Vec<T>
 where
