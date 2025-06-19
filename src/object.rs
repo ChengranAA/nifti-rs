@@ -448,7 +448,7 @@ impl<V> GenericNiftiObject<V> {
     /// # Errors
     ///
     /// - `NiftiError::NoVolumeData` if the source only contains (or claims to contain)
-    /// a header.
+    ///   a header.
     pub fn from_reader<R>(mut source: R) -> Result<Self>
     where
         R: Read,
@@ -488,8 +488,7 @@ impl<V> GenericNiftiObject<V> {
         V: FromSource<R>,
     {
         // fetch extensions
-        let len = header.vox_offset as usize;
-        let len = if len < 352 { 0 } else { len - 352 };
+        let len = (header.vox_offset as usize).saturating_sub(352);
 
         let ext = {
             let source = ByteOrdered::runtime(&mut source, header.endianness);
@@ -545,17 +544,7 @@ impl<V> GenericNiftiObject<V> {
             // extensions and volume are in the same source
 
             let extender = Extender::from_reader(&mut stream)?;
-            let len = header.vox_offset as usize;
-            let len = if len < 352 { 0 } else { len - 352 };
-
-            let ext = {
-                let stream = ByteOrdered::runtime(&mut stream, header.endianness);
-                ExtensionSequence::from_reader(extender, stream, len)?
-            };
-
-            let volume = FromSource::from_reader(stream, &header, options)?;
-
-            (volume, ext)
+            GenericNiftiObject::from_reader_with_extensions(stream, &header, extender, options)?
         };
 
         Ok(GenericNiftiObject {

@@ -36,7 +36,7 @@ mod tests {
 
     fn get_temporary_path(ext: &str) -> PathBuf {
         let dir = tempdir().unwrap();
-        let mut path = dir.into_path();
+        let mut path = dir.keep();
         if !ext.is_empty() {
             path.push(ext);
         }
@@ -163,7 +163,7 @@ mod tests {
     fn half_slope() {
         let data = (0..216)
             .collect::<Array1<_>>()
-            .into_shape((6, 6, 6))
+            .into_shape_with_order((6, 6, 6))
             .unwrap();
         let dim = [3, 6, 6, 6, 1, 1, 1, 1];
         let slope = 0.4;
@@ -261,7 +261,7 @@ mod tests {
     fn write_descrip_panic() {
         let dim = [3, 3, 4, 5, 1, 1, 1, 1];
         let mut header = generate_nifti_header(dim, 1.0, 0.0, NiftiType::Float32);
-        header.descrip = (0..84).into_iter().collect();
+        header.descrip = (0..84).collect();
         let path = get_temporary_path("error_description.nii");
         let data = Array::from_elem((3, 4, 5), 1.5);
         assert!(WriterOptions::new(&path)
@@ -274,16 +274,14 @@ mod tests {
     fn write_set_description_panic() {
         let dim = [3, 3, 4, 5, 1, 1, 1, 1];
         let mut header = generate_nifti_header(dim, 1.0, 0.0, NiftiType::Float32);
-        assert!(header
-            .set_description((0..81).into_iter().collect::<Vec<_>>())
-            .is_err());
+        assert!(header.set_description((0..81).collect::<Vec<_>>()).is_err());
     }
 
     #[test]
     fn write_set_description_str_panic() {
         let dim = [3, 3, 4, 5, 1, 1, 1, 1];
         let mut header = generate_nifti_header(dim, 1.0, 0.0, NiftiType::Float32);
-        let description: String = std::iter::repeat('é').take(41).collect();
+        let description: String = "é".repeat(41);
         assert!(header.set_description_str(description).is_err());
     }
 
@@ -352,12 +350,8 @@ mod tests {
         // set the bytes of vox_offset to 0.0 and of magic to MAGIC_CODE_NI1. The data bytes should
         // be identical though.
         let mut gt_bytes = fs::read("resources/rgb/3D.nii").unwrap();
-        for i in 110..114 {
-            gt_bytes[i] = 0;
-        }
-        for i in 0..4 {
-            gt_bytes[344 + i] = MAGIC_CODE_NI1[i];
-        }
+        gt_bytes[110..114].fill(0);
+        gt_bytes[344..344 + 4].copy_from_slice(MAGIC_CODE_NI1);
         assert_eq!(fs::read(header_path).unwrap(), &gt_bytes[..352]);
         assert_eq!(fs::read(data_path).unwrap(), &gt_bytes[352..]);
     }

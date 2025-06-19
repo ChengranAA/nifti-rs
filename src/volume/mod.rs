@@ -57,7 +57,7 @@ pub trait RandomAccessNiftiVolume: NiftiVolume {
     /// # Errors
     ///
     /// - `NiftiError::OutOfBounds` if the given coordinates surpass this
-    /// volume's boundaries.
+    ///   volume's boundaries.
     fn get_f64(&self, coords: &[u16]) -> Result<f64>;
 
     /// Fetch a single voxel's value in the given voxel index coordinates
@@ -70,7 +70,7 @@ pub trait RandomAccessNiftiVolume: NiftiVolume {
     /// # Errors
     ///
     /// - `NiftiError::OutOfBounds` if the given coordinates surpass this
-    /// volume's boundaries.
+    ///   volume's boundaries.
     #[inline]
     fn get_f32(&self, coords: &[u16]) -> Result<f32> {
         self.get_f64(coords).map(|v| v as f32)
@@ -86,7 +86,7 @@ pub trait RandomAccessNiftiVolume: NiftiVolume {
     /// # Errors
     ///
     /// - `NiftiError::OutOfBounds` if the given coordinates surpass this
-    /// volume's boundaries.
+    ///   volume's boundaries.
     #[inline]
     fn get_u8(&self, coords: &[u16]) -> Result<u8> {
         self.get_f64(coords).map(|v| v as u8)
@@ -102,7 +102,7 @@ pub trait RandomAccessNiftiVolume: NiftiVolume {
     /// # Errors
     ///
     /// - `NiftiError::OutOfBounds` if the given coordinates surpass this
-    /// volume's boundaries.
+    ///   volume's boundaries.
     #[inline]
     fn get_i8(&self, coords: &[u16]) -> Result<i8> {
         self.get_f64(coords).map(|v| v as i8)
@@ -118,7 +118,7 @@ pub trait RandomAccessNiftiVolume: NiftiVolume {
     /// # Errors
     ///
     /// - `NiftiError::OutOfBounds` if the given coordinates surpass this
-    /// volume's boundaries.
+    ///   volume's boundaries.
     #[inline]
     fn get_u16(&self, coords: &[u16]) -> Result<u16> {
         self.get_f64(coords).map(|v| v as u16)
@@ -134,7 +134,7 @@ pub trait RandomAccessNiftiVolume: NiftiVolume {
     /// # Errors
     ///
     /// - `NiftiError::OutOfBounds` if the given coordinates surpass this
-    /// volume's boundaries.
+    ///   volume's boundaries.
     #[inline]
     fn get_i16(&self, coords: &[u16]) -> Result<i16> {
         self.get_f64(coords).map(|v| v as i16)
@@ -150,7 +150,7 @@ pub trait RandomAccessNiftiVolume: NiftiVolume {
     /// # Errors
     ///
     /// - `NiftiError::OutOfBounds` if the given coordinates surpass this
-    /// volume's boundaries.
+    ///   volume's boundaries.
     #[inline]
     fn get_u32(&self, coords: &[u16]) -> Result<u32> {
         self.get_f64(coords).map(|v| v as u32)
@@ -166,7 +166,7 @@ pub trait RandomAccessNiftiVolume: NiftiVolume {
     /// # Errors
     ///
     /// - `NiftiError::OutOfBounds` if the given coordinates surpass this
-    /// volume's boundaries.
+    ///   volume's boundaries.
     #[inline]
     fn get_i32(&self, coords: &[u16]) -> Result<i32> {
         self.get_f64(coords).map(|v| v as i32)
@@ -182,7 +182,7 @@ pub trait RandomAccessNiftiVolume: NiftiVolume {
     /// # Errors
     ///
     /// - `NiftiError::OutOfBounds` if the given coordinates surpass this
-    /// volume's boundaries.
+    ///   volume's boundaries.
     #[inline]
     fn get_u64(&self, coords: &[u16]) -> Result<u64> {
         self.get_f64(coords).map(|v| v as u64)
@@ -198,7 +198,7 @@ pub trait RandomAccessNiftiVolume: NiftiVolume {
     /// # Errors
     ///
     /// - `NiftiError::OutOfBounds` if the given coordinates surpass this
-    /// volume's boundaries.
+    ///   volume's boundaries.
     #[inline]
     fn get_i64(&self, coords: &[u16]) -> Result<i64> {
         self.get_f64(coords).map(|v| v as i64)

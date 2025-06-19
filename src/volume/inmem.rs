@@ -105,7 +105,7 @@ impl InMemNiftiVolume {
         if nbytes != Some(raw_data.len()) {
             return Err(NiftiError::IncompatibleLength(
                 raw_data.len(),
-                nbytes.unwrap_or(usize::max_value()),
+                nbytes.unwrap_or(usize::MAX),
             ));
         }
 
@@ -279,7 +279,7 @@ impl IntoNdArray for InMemNiftiVolume {
 }
 
 #[cfg(feature = "ndarray_volumes")]
-impl<'a> IntoNdArray for &'a InMemNiftiVolume {
+impl IntoNdArray for &InMemNiftiVolume {
     /// Create an ndarray from the given volume.
     fn into_ndarray<T>(self) -> Result<Array<T, IxDyn>>
     where
@@ -289,7 +289,7 @@ impl<'a> IntoNdArray for &'a InMemNiftiVolume {
     }
 }
 
-impl<'a> NiftiVolume for &'a InMemNiftiVolume {
+impl NiftiVolume for &InMemNiftiVolume {
     fn dim(&self) -> &[u16] {
         (**self).dim()
     }
@@ -359,7 +359,7 @@ impl RandomAccessNiftiVolume for InMemNiftiVolume {
     }
 }
 
-impl<'a> RandomAccessNiftiVolume for &'a InMemNiftiVolume {
+impl RandomAccessNiftiVolume for &InMemNiftiVolume {
     fn get_f32(&self, coords: &[u16]) -> Result<f32> {
         (**self).get_f32(coords)
     }

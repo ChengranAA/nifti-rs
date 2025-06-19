@@ -8,12 +8,9 @@ use either::Either;
 use flate2::bufread::GzDecoder;
 use std::borrow::Cow;
 use std::fs::File;
-use std::io::{BufReader, Read, Result as IoResult, Seek};
+use std::io::{BufReader, Result as IoResult};
 use std::mem;
 use std::path::{Path, PathBuf};
-/// A trait that is both Read and Seek.
-pub trait ReadSeek: Read + Seek {}
-impl<T: Read + Seek> ReadSeek for T {}
 
 pub fn convert_bytes_to<T, E>(mut a: Vec<u8>, e: E) -> Vec<T>
 where
@@ -104,8 +101,7 @@ pub fn nb_bytes_for_data(header: &NiftiHeader) -> Result<usize> {
 pub fn nb_values_for_dims(dim: &[u16]) -> Option<usize> {
     dim.iter()
         .cloned()
-        .map(usize::from)
-        .fold(Some(1), |acc, v| acc.and_then(|x| x.checked_mul(v)))
+        .try_fold(1usize, |acc, v| acc.checked_mul(v as usize))
 }
 
 pub fn nb_bytes_for_dim_datatype(dim: &[u16], datatype: NiftiType) -> Option<usize> {

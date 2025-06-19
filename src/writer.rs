@@ -96,9 +96,9 @@ impl<'a> WriterOptions<'a> {
     }
 
     /// Loads a reference header from a Nifti file.
-    pub fn reference_file<P: 'a>(mut self, path: &'a P) -> Self
+    pub fn reference_file<P>(mut self, path: &'a P) -> Self
     where
-        P: AsRef<Path>,
+        P: AsRef<Path> + 'a,
     {
         self.header_reference = HeaderReference::FromFile(path.as_ref());
         self
@@ -426,7 +426,7 @@ where
     E: Endian,
 {
     let len = data.len();
-    let arr_data = data.into_shape(len).unwrap();
+    let arr_data = data.into_shape_with_order(len).unwrap();
     let slice = arr_data.as_slice().unwrap();
     let bytes = cast_slice(slice);
     let (writer, endianness) = writer.into_parts();

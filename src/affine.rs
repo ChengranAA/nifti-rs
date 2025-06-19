@@ -7,7 +7,7 @@ pub type Affine3 = Matrix3<f32>;
 /// 4x4 affine transformation matrix.
 pub type Affine4 = Matrix4<f32>;
 
-const QUARTERNION_THRESHOLD: f64 = -::std::f32::EPSILON as f64 * 3.0;
+const QUARTERNION_THRESHOLD: f64 = -f32::EPSILON as f64 * 3.0;
 
 /// Separate a 4x4 affine into its 3x3 affine and translation components.
 pub fn affine_and_translation<T>(affine: &Matrix4<T>) -> (Matrix3<T>, Vector3<T>)
@@ -130,7 +130,7 @@ pub(crate) fn affine_to_quaternion(affine: &Matrix3<f64>) -> RowVector4<f64> {
 #[allow(clippy::many_single_char_names)]
 pub(crate) fn quaternion_to_affine(q: Quaternion<f64>) -> Matrix3<f64> {
     let nq = q.w * q.w + q.i * q.i + q.j * q.j + q.k * q.k;
-    if nq < ::std::f64::EPSILON {
+    if nq < f64::EPSILON {
         return Matrix3::identity();
     }
     let s = 2.0 / nq;
